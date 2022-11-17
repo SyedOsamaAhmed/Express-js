@@ -1,6 +1,25 @@
 {
   "dependencies": {
     "ejs": "^3.1.6",
-    "express": "^4.17.3"
-  }
+    "express": "^4.17.3",
+    "nodemon": "^2.0.20"
+  },
+  "name": "express",
+  "description": "",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SyedOsamaAhmed/Express-js.git"
+  },
+  "author": "Syed Osama Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SyedOsamaAhmed/Express-js/issues"
+  },
+  "homepage": "https://github.com/SyedOsamaAhmed/Express-js#readme"
 }
