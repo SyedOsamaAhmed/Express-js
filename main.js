@@ -1,9 +1,24 @@
-const http = require("http");
+const express = require("express");
+const app = express();
+const { products } = require("./data");
+//query strings:
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { "content-type": "text/html" });
-  res.write("<h1>Hello world!</h1>");
-  res.end();
+app.get('/api/v1/query',(req,res)=>{
+let sortedProducts=[...products];
+const{search,limit}=req.query;
+
+if(search){
+  sortedProducts=sortedProducts.filter((product)=>product.name.startsWith(search))
+}
+
+if(limit){
+  sortedProducts=sortedProducts.slice(0,Number(limit));
+}
+res.status(200).json(sortedProducts);
+
+
+})
+
+app.listen(5000, () => {
+  console.log("Server running at port 5000");
 });
-
-server.listen(5000);
