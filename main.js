@@ -1,23 +1,23 @@
 const express = require("express");
 const app = express();
-const { products } = require("./data");
-//query strings:
+const logger = require("./middlewares/logger");
+const authorize = require("./middlewares/authorize");
+//Middlewares:
 
-app.get('/api/v1/query',(req,res)=>{
-let sortedProducts=[...products];
-const{search,limit}=req.query;
+app.use([logger, authorize]);//order matters
 
-if(search){
-  sortedProducts=sortedProducts.filter((product)=>product.name.startsWith(search))
-}
-
-if(limit){
-  sortedProducts=sortedProducts.slice(0,Number(limit));
-}
-res.status(200).json(sortedProducts);
-
-
-})
+app.get("/", (req, res) => {
+  res.send("Home");
+});
+app.get("/about", (req, res) => {
+  res.send("About");
+});
+app.get("/api/products", (req, res) => {
+  res.send("Products");
+});
+app.get("/about/items", (req, res) => {
+  res.send("Items");
+});
 
 app.listen(5000, () => {
   console.log("Server running at port 5000");
