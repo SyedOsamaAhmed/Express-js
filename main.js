@@ -1,24 +1,65 @@
 const express = require("express");
 const app = express();
-const logger = require("./middlewares/logger");
-const authorize = require("./middlewares/authorize");
-//Middlewares:
+const {people} =require('./data')
 
-app.use([logger, authorize]);//order matters
 
-app.get("/", (req, res) => {
-  res.send("Home");
-});
-app.get("/about", (req, res) => {
-  res.send("About");
-});
-app.get("/api/products", (req, res) => {
-  res.send("Products");
-});
-app.get("/about/items", (req, res) => {
-  res.send("Items");
+
+
+
+//HTTP methods:
+app.use(express.json());
+
+app.get("/api/people", (req, res) => {
+ res.json({
+  success:true,
+  data:people
+ })
 });
 
+app.post("/api/people",(req,res)=>{
+
+  const {name} = req.body;
+
+  if(!name){
+
+    return res.status(400).json({
+      success:false,
+      msg:"Could not find data by that name"
+    })
+  }
+
+
+  res.status(201).json({
+    sucess:true,
+    data:[...people,name]
+  })
+
+})
+
+
+app.put("/api/people/:id",(req,res)=>{
+  const {name} =req.body;
+  const {id} =req.params;
+  const person=people.find(person=>person.id===Number(id));
+  if(!person){
+    return res.status(404).json({
+      success:false,
+      msg:`No person with id:${person.id}`
+    })
+  }
+ const newPeople=people.map(person=>{
+  if(person.id === Number(id))
+    person.name=name;
+  
+  return person;
+  
+ })
+
+ res.status(200).json({
+  success:true,
+  data:newPeople
+ })
+})
 app.listen(5000, () => {
   console.log("Server running at port 5000");
 });
